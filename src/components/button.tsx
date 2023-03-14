@@ -2,7 +2,7 @@ import styled from '@emotion/styled'
 
 export const Button = styled.button`
   font-family: virgil;
-  padding: 10px;
+  padding: 3px;
   background-color: #ffffff;
   font-size: 20px;
   border-radius: 4px;
