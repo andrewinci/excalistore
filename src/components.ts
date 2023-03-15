@@ -31,6 +31,7 @@ export const Input = styled.input`
 
 type GroupProps = {
   justifyContent?: "center" | "space-between";
+  alignItems?: "flex-end";
   maxHeight?: number;
   margin?: string;
   padding?: string;
@@ -43,19 +44,24 @@ export const Group = styled.div<GroupProps>`
     props.maxHeight ? `${props.maxHeight}px` : undefined};
   margin: ${(props) => props.margin ?? undefined};
   padding: ${(props) => props.padding ?? undefined};
+  align-items: ${(props) => props.alignItems ?? undefined};
 `;
 
-export const Button = styled.button`
+type ButtonProps = {
+  color: "green" | "orange" | "red";
+};
+
+export const Button = styled.button<ButtonProps>`
   font-family: virgil;
   padding: 3px 10px;
-  background-color: #ffffff;
+  background-color: ${(props) => props.color};
   font-size: ${fontSizes.xs};
   border-radius: 4px;
   color: black;
   margin-left: 5px;
   margin-right: 5px;
   &:hover {
-    color: #ffffff;
+    color: ${(props) => props.color};
     background-color: black;
   }
 `;
