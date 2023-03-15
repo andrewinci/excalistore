@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { Button, Group, Input, Text } from './components'
 import { floppy, sword } from './icons'
-import { useChromeStorage } from './storage'
+import { useStorage } from './use-storage'
 import { GlobalStyles } from './style'
 
 const TitleBar = () => {
@@ -50,8 +50,8 @@ const DrawingItem = (props: DrawingItemProps) => {
 }
 
 const App = () => {
-  const { drawings, createDrawing, deleteDrawing } = useChromeStorage();
-  const [drawingName, setDrawingName] = useState<string>();
+  const { drawings, createDrawing, deleteDrawing } = useStorage();
+  const [drawingName, setDrawingName] = useState<string>("");
   const onSaveButtonClick = async () => {
     // do nothing if the name is empty
     //todo: show a warning to the user
