@@ -11,11 +11,11 @@ type Storage = {
 
 const ChromeStorage: Storage = {
   get: async (key: string) => {
-    const data = await chrome.storage.sync.get(key);
+    const data = await chrome.storage.local.get(key);
     return data[key];
   },
   set: async (key: string, value: any) =>
-    await chrome.storage.sync.set({ [key]: value }),
+    await chrome.storage.local.set({ [key]: value }),
 };
 
 const Local: Storage = {
@@ -27,7 +27,7 @@ const Local: Storage = {
     localStorage.setItem(key, JSON.stringify(value)),
 };
 
-const storage: Storage = chrome?.storage?.sync ? ChromeStorage : Local;
+const storage: Storage = chrome?.storage?.local ? ChromeStorage : Local;
 
 /// **** Storage hook  **** ///
 export const useStorage = () => {
@@ -49,7 +49,7 @@ export const useStorage = () => {
 
   const readDrawings = async (): Promise<void> => {
     console.log("Retrieving drawings");
-    const result = await storage.get(DATA_KEY) ?? [];
+    const result = (await storage.get(DATA_KEY)) ?? [];
     console.log("Data retrieved", result);
     await setDrawings(result);
   };

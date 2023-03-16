@@ -52,17 +52,21 @@ const DrawingItem = (props: DrawingItemProps) => {
 
 const App = () => {
   const { drawings, createDrawing, deleteDrawing } = useStorage();
-  const { isAlive } = useContentScript();
+  const { isAlive, getDrawing } = useContentScript();
   const [drawingName, setDrawingName] = useState<string>("");
+
   const onSaveButtonClick = async () => {
     // do nothing if the name is empty
     //todo: show a warning to the user
     if ((drawingName?.length ?? 0) == 0) return;
+
+    // retrieve the drawing from content-script
+    const drawing = await getDrawing();
     await createDrawing({
       id: Date.now().toString(), //todo: use an uuid
       name: drawingName!,
       lastUpdate: new Date().toDateString(),
-      data: {} //todo
+      data: drawing
     })
   }
 

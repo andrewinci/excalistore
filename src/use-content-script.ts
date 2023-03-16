@@ -7,26 +7,48 @@ export const useContentScript = () => {
   useEffect(() => {
     (async () => {
       // check if the content-script is responding
-      const response = await sendReceiveMessage({ action: "ping" });
-      setIsAlive(response.action === "pong");
+      try {
+        const response = await sendReceiveMessage({ action: "ping" });
+        setIsAlive(response?.action === "pong");
+      } catch (err) {
+        setIsAlive(false);
+      }
     })();
   }, []);
 
+  const getDrawing = async () => {
+    const response = await sendReceiveMessage({ action: "get-drawing" });
+    if (response?.action === "drawing") {
+      return response.data;
+    } else {
+      throw Error("Missing or invalid response from the content-script.");
+    }
+  };
+
   return {
     isAlive,
+    getDrawing,
   };
 };
 
 const sendReceiveMessage = async (
   message: PopUpMessage
-): Promise<ScriptMessage> => {
+): Promise<ScriptMessage | null> => {
   const [tab] = await chrome.tabs.query({
     active: true,
     lastFocusedWindow: true,
   });
 
-  if (!tab.id) throw Error("Missing tab id");
+  if (!tab.id) {
+    console.warn("Missing tab id");
+    return null;
+  }
 
-  const response = await chrome.tabs.sendMessage(tab.id, message);
-  return response;
+  try {
+    const response = await chrome.tabs.sendMessage(tab.id, message);
+    return response;
+  } catch (err) {
+    console.warn("Unable to communicate with the content-script", err);
+    return null;
+  }
 };
