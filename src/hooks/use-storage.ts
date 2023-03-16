@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Drawing } from "./model";
+import { Drawing } from "../model";
 
 const DATA_KEY = "EXCALISTORE_DRAWINGS";
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Drawing, PopUpMessage, ScriptMessage } from "./model";
+import { Drawing, PopUpMessage, ScriptMessage } from "../model";
 
 export const useContentScript = () => {
   const [isAlive, setIsAlive] = useState(false);
