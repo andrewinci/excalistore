@@ -44,7 +44,7 @@ type GetDrawingResponse = { action: "drawing"; data: any };
  * Set the current drawing in the local store
  * with the data content
  */
-type SetDrawingRequest = { action: "set-drawing"; name: string; data: any };
+type SetDrawingRequest = { action: "set-drawing"; name: string | null; data: any };
 
 type SetDrawingResponse = { action: "drawing-set"; success: boolean };
 

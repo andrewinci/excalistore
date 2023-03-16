@@ -27,7 +27,9 @@ chrome.runtime.onMessage.addListener(function (
       break;
     case "set-drawing":
       localStorage.setItem(ACTIVE_DRAWING_DATA_KEY, request.data);
-      localStorage.setItem(ACTIVE_DRAWING_NAME_KEY, request.name);
+      if (request.name)
+        localStorage.setItem(ACTIVE_DRAWING_NAME_KEY, request.name);
+      else localStorage.removeItem(ACTIVE_DRAWING_NAME_KEY);
       reply({
         action: "drawing-set",
         success: true,

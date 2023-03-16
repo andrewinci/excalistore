@@ -62,13 +62,14 @@ const App = () => {
     if ((drawingName?.length ?? 0) == 0) return;
 
     // retrieve the drawing from content-script
-    const drawing = await getDrawing();
-    await createDrawing({
+    const rawDrawing = await getDrawing();
+    const drawing = await createDrawing({
       id: Date.now().toString(), //todo: use an uuid
       name: drawingName!,
       lastUpdate: new Date().toDateString(),
-      data: drawing
-    })
+      data: rawDrawing
+    });
+    await setDrawing(drawing);
   }
 
   const SaveNewDrawing = <>
@@ -84,6 +85,7 @@ const App = () => {
       <Button
         onClick={onSaveButtonClick}
         color='green'>Save</Button>
+      <Button onClick={() => setDrawing({ data: [], name: null })} color='red'>Clear</Button>
     </Group>
   </>;
 
@@ -92,7 +94,7 @@ const App = () => {
       <Text size='s'>{activeDrawingName}</Text>
     </Group>
     <Group margin="5px 0 20px 0">
-      <Button color='red'>New</Button>
+      <Button onClick={() => setDrawing({ data: [], name: null })} color='red'>New</Button>
       <Button color='orange'>Update</Button>
       <Button color='green'>Save as</Button>
     </Group>

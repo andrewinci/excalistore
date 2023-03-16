@@ -30,7 +30,7 @@ export const useContentScript = () => {
     }
   };
 
-  const setDrawing = async (drawing: Drawing) => {
+  const setDrawing = async (drawing: {data: any, name: string | null}) => {
     const response = await sendReceiveMessage({
       action: "set-drawing",
       data: drawing.data,

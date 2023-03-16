@@ -36,7 +36,7 @@ export const useStorage = () => {
     readDrawings();
   }, []);
 
-  const createDrawing = async (newDrawing: Drawing): Promise<void> => {
+  const createDrawing = async (newDrawing: Drawing): Promise<Drawing> => {
     await readDrawings();
     if (drawings.find((d) => d.id === newDrawing.id)) {
       throw Error("[createDrawing] Duplicated id found");
@@ -45,6 +45,7 @@ export const useStorage = () => {
     await storage.set(DATA_KEY, result);
     // update the state with read drawings
     await readDrawings();
+    return newDrawing
   };
 
   const readDrawings = async (): Promise<void> => {
