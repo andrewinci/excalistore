@@ -1,7 +1,7 @@
 // entry point for the content-script loaded in the web page
 // the application running in the pop-up can communicate with this script
 
-import { PopUpMessage, ScriptMessage } from "./messages";
+import { PopUpMessage, ScriptMessage } from "./model";
 
 // via chrome messaging
 const LOCAL_STORAGE_KEY = "excalidraw";

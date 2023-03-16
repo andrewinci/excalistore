@@ -7,6 +7,7 @@ import { Button, Group, Input, Text } from './components'
 import { floppy, sword } from './icons'
 import { useStorage } from './use-storage'
 import { GlobalStyles } from './style'
+import { useContentScript } from './use-content-script'
 
 const TitleBar = () => {
   return <>
@@ -51,6 +52,7 @@ const DrawingItem = (props: DrawingItemProps) => {
 
 const App = () => {
   const { drawings, createDrawing, deleteDrawing } = useStorage();
+  const { isAlive } = useContentScript();
   const [drawingName, setDrawingName] = useState<string>("");
   const onSaveButtonClick = async () => {
     // do nothing if the name is empty
@@ -62,6 +64,11 @@ const App = () => {
       lastUpdate: new Date().toDateString(),
       data: {} //todo
     })
+  }
+
+  if (!isAlive) {
+    //todo: use a modal instead
+    return <p>Make sure to be in the excalidraw website to use this extension.</p>
   }
 
   return <>
