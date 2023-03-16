@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
-import { PopUpMessage, ScriptMessage } from "./model";
+import { Drawing, PopUpMessage, ScriptMessage } from "./model";
 
 export const useContentScript = () => {
   const [isAlive, setIsAlive] = useState(false);
+  const [activeDrawingName, setActiveDrawingName] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
     (async () => {
-      // check if the content-script is responding
       try {
+        // check if the content-script is responding
         const response = await sendReceiveMessage({ action: "ping" });
         setIsAlive(response?.action === "pong");
+        // retrieve the name of the current drawing
+        await updateActiveDrawingName();
       } catch (err) {
         setIsAlive(false);
       }
@@ -25,17 +30,32 @@ export const useContentScript = () => {
     }
   };
 
-  const setDrawing = async (data: any) => {
-    const response = await sendReceiveMessage({ action: "set-drawing", data });
+  const setDrawing = async (drawing: Drawing) => {
+    const response = await sendReceiveMessage({
+      action: "set-drawing",
+      data: drawing.data,
+      name: drawing.name,
+    });
     if (response?.action === "drawing-set") {
+      await updateActiveDrawingName();
       return true;
     } else {
       return false;
     }
   };
 
+  const updateActiveDrawingName = async () => {
+    const response = await sendReceiveMessage({ action: "get-name" });
+    if (response?.action === "name") {
+      setActiveDrawingName(response.name);
+    } else {
+      setActiveDrawingName(null);
+    }
+  };
+
   return {
     isAlive,
+    activeDrawingName,
     getDrawing,
     setDrawing,
   };

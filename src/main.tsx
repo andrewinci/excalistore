@@ -18,7 +18,7 @@ const TitleBar = () => {
       <img style={{ width: "35px", marginLeft: "10px" }} src={floppy} />
     </Group>
     <Group margin='0' padding='0' >
-      <Text size="s" margin="0">The Excalidraw drawings manager</Text>
+      <Text size="xs" margin="0">The Excalidraw drawings manager</Text>
     </Group>
   </>
 }
@@ -43,7 +43,7 @@ const DrawingItem = (props: DrawingItemProps) => {
     <Group margin='0px 0px 5px 0px' alignItems='flex-end' justifyContent="space-between">
       <Group maxHeight={30}>
         <Button onClick={onOpen} color='green'>Open</Button>
-        <Button onClick={onUpdate} color='orange'>Update</Button>
+        {/* <Button onClick={onUpdate} color='orange'>Update</Button> */}
         <Button onClick={onDelete} color='red'>Bin it</Button>
       </Group>
       <Text size='s' margin="0px">{date}</Text>
@@ -53,7 +53,7 @@ const DrawingItem = (props: DrawingItemProps) => {
 
 const App = () => {
   const { drawings, createDrawing, deleteDrawing } = useStorage();
-  const { isAlive, getDrawing, setDrawing } = useContentScript();
+  const { isAlive, activeDrawingName, getDrawing, setDrawing } = useContentScript();
   const [drawingName, setDrawingName] = useState<string>("");
 
   const onSaveButtonClick = async () => {
@@ -71,6 +71,33 @@ const App = () => {
     })
   }
 
+  const SaveNewDrawing = <>
+    <Group margin="15px 0 0 0">
+      <Input
+        style={{ minWidth: "320px" }}
+        placeholder='drawing title'
+        value={drawingName}
+        onChange={e => setDrawingName(e.currentTarget.value)}>
+      </Input>
+    </Group>
+    <Group margin="5px 0 20px 0">
+      <Button
+        onClick={onSaveButtonClick}
+        color='green'>Save</Button>
+    </Group>
+  </>;
+
+  const UpdateDrawing = <>
+    <Group margin="15px 0 0 0">
+      <Text size='s'>{activeDrawingName}</Text>
+    </Group>
+    <Group margin="5px 0 20px 0">
+      <Button color='red'>New</Button>
+      <Button color='orange'>Update</Button>
+      <Button color='green'>Save as</Button>
+    </Group>
+  </>;
+
   if (!isAlive) {
     //todo: use a modal instead
     return <p>Make sure to be in the excalidraw website to use this extension.</p>
@@ -78,27 +105,18 @@ const App = () => {
 
   return <>
     <TitleBar />
-    <Group margin="25px 0 25px 0">
-      <Input
-        style={{ minWidth: "320px" }}
-        placeholder='drawing title'
-        value={drawingName}
-        onChange={e => setDrawingName(e.currentTarget.value)}>
-      </Input>
-      <Button
-        onClick={onSaveButtonClick}
-        color='green'>Save drawing</Button>
-    </Group>
+    {activeDrawingName ? UpdateDrawing : SaveNewDrawing}
     <Group margin='0px 0px 5px 0'>
-      <Text size='l'>My drawings</Text>
+      <Text size='l'>Local drawings:</Text>
     </Group>
-    <div style={{ maxHeight: "245px", minHeight: "245px", overflow: "scroll", border: "2px solid black", borderRadius: "4px" }}>
+    <div style={{ maxHeight: "240px", minHeight: "240px", overflow: "scroll", border: "2px solid black", borderRadius: "4px" }}>
       {drawings.map(d => <DrawingItem
         key={d.id}
         name={d.name}
         date={d.lastUpdate}
         onDelete={() => deleteDrawing(d.id)}
-        onOpen={async () => await setDrawing(d.data)}
+        //todo: this needs a warning to the user
+        onOpen={async () => await setDrawing(d)}
       />)}
     </div>
   </>

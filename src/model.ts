@@ -18,6 +18,18 @@ type PingRequest = { action: "ping" };
  * Reply to Ping from the script to pop-up
  */
 type PingResponse = { action: "pong" };
+
+/**
+ * Message from the pop-up to the script
+ * to get the name of the current drawing
+ */
+type GetNameRequest = { action: "get-name" };
+/**
+ * Reply to GetNameRequest from the script to pop-up
+ * with the name of the current drawing (if available)
+ */
+type GetNameResponse = { action: "name"; name: string | null };
+
 /**
  * Get the current drawing from the local store
  */
@@ -32,18 +44,24 @@ type GetDrawingResponse = { action: "drawing"; data: any };
  * Set the current drawing in the local store
  * with the data content
  */
-type SetDrawingRequest = { action: "set-drawing"; data: any };
+type SetDrawingRequest = { action: "set-drawing"; name: string; data: any };
 
 type SetDrawingResponse = { action: "drawing-set"; success: boolean };
 
 /**
  * Messages sent from the Pop up to the script page
  */
-export type PopUpMessage = PingRequest | GetDrawingRequest | SetDrawingRequest;
+export type PopUpMessage =
+  | PingRequest
+  | GetNameRequest
+  | GetDrawingRequest
+  | SetDrawingRequest;
+
 /**
  * Messages sent from the script to the pop up window
  */
 export type ScriptMessage =
   | PingResponse
+  | GetNameResponse
   | GetDrawingResponse
   | SetDrawingResponse;
