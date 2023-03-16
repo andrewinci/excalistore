@@ -3,19 +3,27 @@ import { Global } from '@emotion/react'
 import styled from '@emotion/styled'
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom/client'
-import { Button, CreateEditBar, DrawingItem, Group, Input, Text, TitleBar } from './components'
-import { useStorage, useContentScript } from './hooks'
-import { GlobalStyles } from './style'
+import { CreateEditBar, DrawingItem, Group, Text, TitleBar, Modal } from './components'
+import { useStorage, useContentScript, useModal } from './hooks'
+import { GlobalStyles, POP_UP_HEIGHT, POP_UP_WIDTH } from './style'
 
 
 const App = () => {
   const { drawings, createDrawing, deleteDrawing, updateDrawing } = useStorage();
   const { isAlive, activeDrawingName, getDrawing, setDrawing } = useContentScript();
+  const { modalProps, closeModal, openModal } = useModal();
 
   const onSaveButtonClick = async (drawingName: string) => {
     // do nothing if the name is empty
-    //todo: show a warning to the user
-    if ((drawingName?.length ?? 0) == 0) return;
+    if ((drawingName?.length ?? 0) == 0) {
+      openModal({
+        title: "Invalid drawing name",
+        description: "The name of a drawing should not be empty.",
+        opened: true,
+        onSubmit: closeModal
+      })
+      return;
+    }
 
     // retrieve the drawing from content-script
     const rawDrawing = await getDrawing();
@@ -52,6 +60,7 @@ const App = () => {
         onOpen={async () => await setDrawing(d)}
       />)}
     </div>
+    <Modal {...modalProps} />
   </>
 }
 

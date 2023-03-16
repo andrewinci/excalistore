@@ -2,6 +2,9 @@ import { css } from "@emotion/react";
 // global styles
 import virgil from "./Virgil.woff2";
 
+export const POP_UP_WIDTH = 600;
+export const POP_UP_HEIGHT = 450;
+
 export const GlobalStyles = css`
   @font-face {
     font-family: "virgil";
@@ -11,11 +14,11 @@ export const GlobalStyles = css`
     font-family: "virgil";
   }
   html {
-    min-width: 600px;
-    max-width: 600px;
+    min-width: ${POP_UP_WIDTH}px;
+    max-width: ${POP_UP_WIDTH}px;
 
-    min-height: 450px;
-    max-height: 450px;
+    min-height: ${POP_UP_HEIGHT}px;
+    max-height: ${POP_UP_HEIGHT}px;
 
     font-family: virgil;
   }
