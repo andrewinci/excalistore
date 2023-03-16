@@ -48,6 +48,18 @@ const App = () => {
     })
   };
 
+  const onClearCanvas = async () => {
+    openModal({
+      title: "Are you sure?",
+      description: `Are you sure you want to clear the canvas?\nThe current drawing will be lost.`,
+      icons: "OkIgnore",
+      onSubmit: (response) => {
+        if (response === 'Ok') setDrawing({ data: [], name: null });
+        closeModal();
+      }
+    })
+  };
+
   if (!isAlive) {
     return <Modal
       title="Are you on the Excalidraw website?"
@@ -62,7 +74,7 @@ const App = () => {
     <TitleBar />
     <CreateEditBar
       activeDrawingName={activeDrawingName}
-      onClear={() => setDrawing({ data: [], name: null })}
+      onClear={onClearCanvas}
       onSave={onSaveButtonClick} />
     <Group margin='0px 0px 5px 0'>
       <Text size='l'>Local drawings:</Text>
