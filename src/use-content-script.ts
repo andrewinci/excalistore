@@ -25,9 +25,19 @@ export const useContentScript = () => {
     }
   };
 
+  const setDrawing = async (data: any) => {
+    const response = await sendReceiveMessage({ action: "set-drawing", data });
+    if (response?.action === "drawing-set") {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   return {
     isAlive,
     getDrawing,
+    setDrawing,
   };
 };
 

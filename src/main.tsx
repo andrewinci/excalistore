@@ -8,6 +8,7 @@ import { floppy, sword } from './icons'
 import { useStorage } from './use-storage'
 import { GlobalStyles } from './style'
 import { useContentScript } from './use-content-script'
+import { Drawing } from './model'
 
 const TitleBar = () => {
   return <>
@@ -52,7 +53,7 @@ const DrawingItem = (props: DrawingItemProps) => {
 
 const App = () => {
   const { drawings, createDrawing, deleteDrawing } = useStorage();
-  const { isAlive, getDrawing } = useContentScript();
+  const { isAlive, getDrawing, setDrawing } = useContentScript();
   const [drawingName, setDrawingName] = useState<string>("");
 
   const onSaveButtonClick = async () => {
@@ -97,6 +98,7 @@ const App = () => {
         name={d.name}
         date={d.lastUpdate}
         onDelete={() => deleteDrawing(d.id)}
+        onOpen={async () => await setDrawing(d.data)}
       />)}
     </div>
   </>
