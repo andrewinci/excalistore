@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { CreateEditBar, DrawingItem, Group, Text, TitleBar, Modal } from './components'
 import { useStorage, useContentScript, useModal } from './hooks'
+import { Drawing } from './model'
 import { GlobalStyles, POP_UP_HEIGHT, POP_UP_WIDTH } from './style'
 
 
@@ -35,6 +36,18 @@ const App = () => {
     await setDrawing(drawing);
   }
 
+  const onDeleteButtonClick = async (drawing: Drawing) => {
+    openModal({
+      title: "Are you sure?",
+      description: `Are you sure you want to delete ${drawing.name}?\nThis action is not reversible.`,
+      icons: "OkIgnore",
+      onSubmit: (response) => {
+        if (response === 'Ok') deleteDrawing(drawing.id);
+        closeModal();
+      }
+    })
+  };
+
   if (!isAlive) {
     return <Modal
       title="Are you on the Excalidraw website?"
@@ -59,7 +72,7 @@ const App = () => {
         key={d.id}
         name={d.name}
         date={d.lastUpdate}
-        onDelete={() => deleteDrawing(d.id)}
+        onDelete={() => onDeleteButtonClick(d)}
         //todo: this needs a warning to the user
         onOpen={async () => await setDrawing(d)}
       />)}
