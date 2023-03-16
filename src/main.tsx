@@ -10,7 +10,7 @@ import { GlobalStyles, POP_UP_HEIGHT, POP_UP_WIDTH } from './style'
 
 const App = () => {
   const { drawings, createDrawing, deleteDrawing, updateDrawing } = useStorage();
-  const { isAlive, activeDrawingName, getDrawing, setDrawing } = useContentScript();
+  const { isAlive, activeDrawingName, getDrawing, setDrawing, checkIsAlive } = useContentScript();
   const { modalProps, closeModal, openModal } = useModal();
 
   const onSaveButtonClick = async (drawingName: string) => {
@@ -19,8 +19,7 @@ const App = () => {
       openModal({
         title: "Invalid drawing name",
         description: "The name of a drawing should not be empty.",
-        opened: true,
-        onSubmit: closeModal
+        icons: "OK"
       })
       return;
     }
@@ -37,8 +36,13 @@ const App = () => {
   }
 
   if (!isAlive) {
-    //todo: use a modal instead
-    return <p>Make sure to be in the excalidraw website to use this extension.</p>
+    return <Modal
+      title="Are you on the Excalidraw website?"
+      description={`This extensions only works on the Excalidraw website.\nMake sure to navigate to https://excalidraw.com/ before trying to use this extension.`}
+      opened={true}
+      icons={"OK"}
+      onSubmit={checkIsAlive}
+    />
   }
 
   return <>

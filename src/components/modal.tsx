@@ -7,11 +7,12 @@ export type ModalProps = {
     title?: string,
     description?: string,
     opened: boolean,
+    icons?: "OK" | "Ignore" | "OkIgnore" | "None",
     onSubmit: (response: "Ok" | "Ignore") => void
 }
 
 export const Modal = (props: ModalProps) => {
-    const { title, description, opened, onSubmit } = props;
+    const { title, description, opened, onSubmit, icons } = props;
     const ModalBackground = styled.div`
       position: absolute;
       top: 0px;
@@ -29,6 +30,7 @@ export const Modal = (props: ModalProps) => {
       
       left: ${(POP_UP_WIDTH - 380) / 2}px;
       min-width: 380px;
+      max-width: 380px;
   
       padding: 10px;
       z-index: 999;
@@ -43,12 +45,12 @@ export const Modal = (props: ModalProps) => {
             <Group>
                 <Text size='l'>{title}</Text>
             </Group>
-            <Group margin='5px 0 0 0' style={{ minHeight: "60px" }}>
-                <Text size='s'>{description}</Text>
+            <Group margin='5px 0 0 5px' style={{ minHeight: "60px" }}>
+                <Text size='xs'>{description}</Text>
             </Group>
-            <Group margin='0px 30px' justifyContent='space-between'>
-                <Button onClick={() => props.onSubmit("Ignore")} color='green'>Ignore</Button>
-                <Button onClick={() => props.onSubmit("Ok")} color='red'>Ok</Button>
+            <Group margin='0px 28px' justifyContent={(icons ?? "OkIgnore") === "OkIgnore" ? 'space-between' : "center"}>
+                <Button hidden={icons === "None" || icons === "OK"} onClick={() => onSubmit("Ignore")} color='green'>Ignore</Button>
+                <Button hidden={icons === "None" || icons === "Ignore"} onClick={() => onSubmit("Ok")} color='red'>Ok</Button>
             </Group>
         </ModalContainer>
     </>

@@ -7,18 +7,20 @@ export const useContentScript = () => {
     null
   );
 
+  const checkIsAlive = async () => {
+    try {
+      // check if the content-script is responding
+      const response = await sendReceiveMessage({ action: "ping" });
+      setIsAlive(response?.action === "pong");
+      // retrieve the name of the current drawing
+      await updateActiveDrawingName();
+    } catch (err) {
+      setIsAlive(false);
+    }
+  };
+
   useEffect(() => {
-    (async () => {
-      try {
-        // check if the content-script is responding
-        const response = await sendReceiveMessage({ action: "ping" });
-        setIsAlive(response?.action === "pong");
-        // retrieve the name of the current drawing
-        await updateActiveDrawingName();
-      } catch (err) {
-        setIsAlive(false);
-      }
-    })();
+    checkIsAlive();
   }, []);
 
   const getDrawing = async () => {
@@ -30,7 +32,7 @@ export const useContentScript = () => {
     }
   };
 
-  const setDrawing = async (drawing: {data: any, name: string | null}) => {
+  const setDrawing = async (drawing: { data: any; name: string | null }) => {
     const response = await sendReceiveMessage({
       action: "set-drawing",
       data: drawing.data,
@@ -58,6 +60,7 @@ export const useContentScript = () => {
     activeDrawingName,
     getDrawing,
     setDrawing,
+    checkIsAlive,
   };
 };
 
