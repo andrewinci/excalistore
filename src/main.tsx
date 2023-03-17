@@ -2,7 +2,7 @@
 import { Global } from '@emotion/react'
 import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
-import { CreateEditBar, DrawingItem, Group, Text, TitleBar, Modal } from './components'
+import { CreateEditBar, DrawingItem, Group, Text, TitleBar, Modal, Button } from './components'
 import { useStorage, useContentScript, useModal } from './hooks'
 import { Drawing } from './model'
 import { GlobalStyles } from './style'
@@ -107,9 +107,17 @@ const App = () => {
     //todo: Make https://excalidraw.com/ a link.
     return <Modal
       title="Excalistore"
-      description={`This extensions only works on the Excalidraw website.\nMake sure to navigate to https://excalidraw.com/ before trying to use this extension.`}
+      description={ 
+      <>
+        <Group>
+          <Text size='xs'>{`This extensions only works on the Excalidraw website`}</Text>
+        </Group>
+        <Group margin='25px 0 0 0'>
+          <Button color='green' onClick={async () => await chrome.tabs.create({url: "https://excalidraw.com/"})}>Go to Excalidraw</Button>
+        </Group>
+      </>}
       opened={true}
-      icons={"OK"}
+      icons={"None"}
       onSubmit={checkIsAlive}
     />
   }

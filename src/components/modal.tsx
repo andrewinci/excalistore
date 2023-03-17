@@ -1,3 +1,4 @@
+import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { POP_UP_WIDTH } from "../style";
@@ -5,7 +6,7 @@ import { Group, Text, Button } from "./base";
 
 export type ModalProps = {
     title?: string,
-    description?: string,
+    description?: string | ReactJSXElement,
     opened: boolean,
     icons?: "OK" | "Ignore" | "OkIgnore" | "None",
     onSubmit: (response: "Ok" | "Ignore") => void
@@ -45,9 +46,14 @@ export const Modal = (props: ModalProps) => {
             <Group>
                 <Text size='l'>{title}</Text>
             </Group>
-            <Group margin='5px 0 0 5px' style={{ minHeight: "60px" }}>
-                <Text size='xs'>{description}</Text>
-            </Group>
+            <div style={{margin: "5px 0 0 5px", minHeight: "60px" }}>
+            {
+                typeof description === 'string' ? 
+                <Group>
+                    <Text size='xs'>{description}</Text>
+                </Group> : description
+            }
+            </div>
             <Group margin='0px 28px' justifyContent={(icons ?? "OkIgnore") === "OkIgnore" ? 'space-between' : "center"}>
                 <Button hidden={icons === "None" || icons === "OK"} onClick={() => onSubmit("Ignore")} color='green'>Ignore</Button>
                 <Button hidden={icons === "None" || icons === "Ignore"} onClick={() => onSubmit("Ok")} color='red'>Ok</Button>
