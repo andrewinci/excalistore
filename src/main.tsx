@@ -10,11 +10,11 @@ import { GlobalStyles } from './style'
 
 const App = () => {
   const { drawings, createDrawing, deleteDrawing, updateDrawing } = useStorage();
-  const { isAlive, activeDrawingName, getDrawing, setDrawing, checkIsAlive } = useContentScript();
+  const { isAlive, activeDrawing, getDrawing, setDrawing, checkIsAlive } = useContentScript();
   const { modalProps, closeModal, openModal } = useModal();
   const [mode, setMode] = useState<"Create" | "Edit">("Create");
 
-  useEffect(() => { setMode(activeDrawingName ? "Edit" : "Create") }, [activeDrawingName]);
+  useEffect(() => { setMode(activeDrawing ? "Edit" : "Create") }, [activeDrawing]);
 
   const onSave = async (drawingName: string) => {
     // do nothing if the name is empty
@@ -44,8 +44,13 @@ const App = () => {
       title: "Deleting drawing",
       description: `Are you sure you want to delete ${drawing.name}?\nThis action is not reversible.`,
       icons: "OkIgnore",
-      onSubmit: (response) => {
-        if (response === 'Ok') deleteDrawing(drawing.id);
+      onSubmit: async (response) => {
+        if (response === 'Ok') {
+          await deleteDrawing(drawing.id);
+          if (activeDrawing?.id === drawing.id) {
+            await setDrawing(null, null);
+          }
+        }
         closeModal();
       }
     })
@@ -53,7 +58,7 @@ const App = () => {
 
   const onClearCanvas = async () => {
     openModal({
-      title: "Are you sure?",
+      title: "Clearing canvas",
       description: `Are you sure you want to clear the canvas?\nThe current drawing will be lost.`,
       icons: "OkIgnore",
       onSubmit: (response) => {
@@ -67,13 +72,13 @@ const App = () => {
     const rawDrawing = await getDrawing();
     openModal({
       title: "Update drawing",
-      description: `Are you sure you want to update ${activeDrawingName?.name}?`,
+      description: `Are you sure you want to update ${activeDrawing?.name}?`,
       icons: "OkIgnore",
       onSubmit: async (response) => {
         if (response === 'Ok') {
           await updateDrawing({
-            id: activeDrawingName!.id,
-            name: activeDrawingName!.name,
+            id: activeDrawing!.id,
+            name: activeDrawing!.name,
             lastUpdate: new Date().toDateString(),
             data: rawDrawing
           });
@@ -86,7 +91,7 @@ const App = () => {
   const onOpen = async (drawing: Drawing) => {
     openModal({
       title: "Open drawing",
-      description: `Are you sure you want to open ${activeDrawingName?.name}? Any unsaved changes to the current doc will be lost.`,
+      description: `Are you sure you want to open ${activeDrawing?.name}? Any unsaved changes to the current doc will be lost.`,
       icons: "OkIgnore",
       onSubmit: async (response) => {
         if (response === 'Ok') {
@@ -99,6 +104,7 @@ const App = () => {
   }
 
   if (!isAlive) {
+    //todo: Make https://excalidraw.com/ a link.
     return <Modal
       title="Excalistore"
       description={`This extensions only works on the Excalidraw website.\nMake sure to navigate to https://excalidraw.com/ before trying to use this extension.`}
@@ -111,7 +117,7 @@ const App = () => {
   return <>
     <TitleBar />
     <CreateEditBar
-      activeDrawingName={activeDrawingName?.name ?? ""}
+      activeDrawingName={activeDrawing?.name ?? ""}
       mode={mode}
       onSaveAs={() => setMode("Create")}
       onUpdate={onUpdate}

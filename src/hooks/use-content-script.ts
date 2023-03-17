@@ -34,7 +34,7 @@ export const useContentScript = () => {
   };
 
   const setDrawing = async (
-    data: any,
+    data: any | null,
     activeDrawing: { name: string; id: string } | null
   ) => {
     const response = await sendReceiveMessage({
@@ -61,7 +61,7 @@ export const useContentScript = () => {
 
   return {
     isAlive,
-    activeDrawingName: activeDrawing,
+    activeDrawing,
     getDrawing,
     setDrawing,
     checkIsAlive,
