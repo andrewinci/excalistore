@@ -41,7 +41,7 @@ const App = () => {
 
   const onDelete = async (drawing: Drawing) => {
     openModal({
-      title: "Are you sure?",
+      title: "Deleting drawing",
       description: `Are you sure you want to delete ${drawing.name}?\nThis action is not reversible.`,
       icons: "OkIgnore",
       onSubmit: (response) => {
@@ -66,7 +66,7 @@ const App = () => {
   const onUpdate = async () => {
     const rawDrawing = await getDrawing();
     openModal({
-      title: "Are you sure?",
+      title: "Update drawing",
       description: `Are you sure you want to update ${activeDrawingName?.name}?`,
       icons: "OkIgnore",
       onSubmit: async (response) => {
@@ -83,9 +83,24 @@ const App = () => {
     });
   }
 
+  const onOpen = async (drawing: Drawing) => {
+    openModal({
+      title: "Open drawing",
+      description: `Are you sure you want to open ${activeDrawingName?.name}? Any unsaved changes to the current doc will be lost.`,
+      icons: "OkIgnore",
+      onSubmit: async (response) => {
+        if (response === 'Ok') {
+          await setDrawing(drawing.data, drawing);
+        }
+        closeModal();
+      }
+    });
+
+  }
+
   if (!isAlive) {
     return <Modal
-      title="Are you on the Excalidraw website?"
+      title="Excalistore"
       description={`This extensions only works on the Excalidraw website.\nMake sure to navigate to https://excalidraw.com/ before trying to use this extension.`}
       opened={true}
       icons={"OK"}
@@ -111,8 +126,7 @@ const App = () => {
         name={d.name}
         date={d.lastUpdate}
         onDelete={() => onDelete(d)}
-        //todo: this needs a warning to the user
-        onOpen={async () => await setDrawing(d.data, d)}
+        onOpen={async () => await onOpen(d)}
       />)}
     </div>
     <Modal {...modalProps} />
