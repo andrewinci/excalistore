@@ -5,11 +5,13 @@ type CreateEditBarProps = {
     activeDrawingName: string | null,
     mode: "Create" | "Edit",
     onSave?: (drawingName: string) => void,
+    onUpdate?: () => void
     onClear?: () => void
     onSaveAs?: () => void
 }
 
-export const CreateEditBar = ({ activeDrawingName, mode, onSave, onClear, onSaveAs }: CreateEditBarProps) => {
+export const CreateEditBar = (props: CreateEditBarProps) => {
+    const { activeDrawingName, mode, onSave, onClear, onSaveAs, onUpdate } = props;
     const [drawingName, setDrawingName] = useState<string>("");
     useEffect(() => { setDrawingName(activeDrawingName ?? "") }, [activeDrawingName])
     const CreateNewDrawing = <>
@@ -35,7 +37,7 @@ export const CreateEditBar = ({ activeDrawingName, mode, onSave, onClear, onSave
         </Group>
         <Group margin="5px 0 20px 0">
             <Button color='red' onClick={onClear}>New</Button>
-            <Button color='orange'>Update</Button>
+            <Button color='orange' onClick={onUpdate}>Update</Button>
             <Button color='green' onClick={onSaveAs}>Save as</Button>
         </Group>
     </>;

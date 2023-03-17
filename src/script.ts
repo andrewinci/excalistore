@@ -5,7 +5,7 @@ import { PopUpMessage, ScriptMessage } from "./model";
 
 // via chrome messaging
 const ACTIVE_DRAWING_DATA_KEY = "excalidraw";
-const ACTIVE_DRAWING_NAME_KEY = "excalistore-name";
+const ACTIVE_DRAWING_NAME_KEY = "excalistore-active";
 
 // logic to handle messages from the extension popup
 chrome.runtime.onMessage.addListener(function (
@@ -27,8 +27,11 @@ chrome.runtime.onMessage.addListener(function (
       break;
     case "set-drawing":
       localStorage.setItem(ACTIVE_DRAWING_DATA_KEY, request.data);
-      if (request.name)
-        localStorage.setItem(ACTIVE_DRAWING_NAME_KEY, request.name);
+      if (request.activeDrawing)
+        localStorage.setItem(
+          ACTIVE_DRAWING_NAME_KEY,
+          JSON.stringify(request.activeDrawing)
+        );
       else localStorage.removeItem(ACTIVE_DRAWING_NAME_KEY);
       reply({
         action: "drawing-set",
@@ -37,10 +40,11 @@ chrome.runtime.onMessage.addListener(function (
       // refresh the page to load the new content
       window.location.reload();
       break;
-    case "get-name":
+    case "get-active":
+      const raw = localStorage.getItem(ACTIVE_DRAWING_NAME_KEY);
       reply({
-        action: "name",
-        name: localStorage.getItem(ACTIVE_DRAWING_NAME_KEY),
+        action: "active",
+        data: raw ? JSON.parse(raw) : null,
       });
       break;
   }

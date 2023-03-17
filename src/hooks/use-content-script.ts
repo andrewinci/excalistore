@@ -3,9 +3,10 @@ import { Drawing, PopUpMessage, ScriptMessage } from "../model";
 
 export const useContentScript = () => {
   const [isAlive, setIsAlive] = useState(false);
-  const [activeDrawingName, setActiveDrawingName] = useState<string | null>(
-    null
-  );
+  const [activeDrawing, setActiveDrawing] = useState<{
+    name: string;
+    id: string;
+  } | null>(null);
 
   const checkIsAlive = async () => {
     try {
@@ -32,11 +33,14 @@ export const useContentScript = () => {
     }
   };
 
-  const setDrawing = async (drawing: { data: any; name: string | null }) => {
+  const setDrawing = async (
+    data: any,
+    activeDrawing: { name: string; id: string } | null
+  ) => {
     const response = await sendReceiveMessage({
       action: "set-drawing",
-      data: drawing.data,
-      name: drawing.name,
+      data,
+      activeDrawing,
     });
     if (response?.action === "drawing-set") {
       await updateActiveDrawingName();
@@ -47,17 +51,17 @@ export const useContentScript = () => {
   };
 
   const updateActiveDrawingName = async () => {
-    const response = await sendReceiveMessage({ action: "get-name" });
-    if (response?.action === "name") {
-      setActiveDrawingName(response.name);
+    const response = await sendReceiveMessage({ action: "get-active" });
+    if (response?.action === "active") {
+      setActiveDrawing(response.data);
     } else {
-      setActiveDrawingName(null);
+      setActiveDrawing(null);
     }
   };
 
   return {
     isAlive,
-    activeDrawingName,
+    activeDrawingName: activeDrawing,
     getDrawing,
     setDrawing,
     checkIsAlive,

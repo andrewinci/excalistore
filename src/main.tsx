@@ -1,12 +1,11 @@
 // entry point of the react app that powers the extension pop-up
 import { Global } from '@emotion/react'
-import styled from '@emotion/styled'
 import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { CreateEditBar, DrawingItem, Group, Text, TitleBar, Modal } from './components'
 import { useStorage, useContentScript, useModal } from './hooks'
 import { Drawing } from './model'
-import { GlobalStyles, POP_UP_HEIGHT, POP_UP_WIDTH } from './style'
+import { GlobalStyles } from './style'
 
 
 const App = () => {
@@ -17,7 +16,7 @@ const App = () => {
 
   useEffect(() => { setMode(activeDrawingName ? "Edit" : "Create") }, [activeDrawingName]);
 
-  const onSaveButtonClick = async (drawingName: string) => {
+  const onSave = async (drawingName: string) => {
     // do nothing if the name is empty
     if ((drawingName?.length ?? 0) == 0) {
       openModal({
@@ -36,11 +35,11 @@ const App = () => {
       lastUpdate: new Date().toDateString(),
       data: rawDrawing
     });
-    await setDrawing(drawing);
+    await setDrawing(drawing.data, drawing);
     setMode("Edit")
   }
 
-  const onDeleteButtonClick = async (drawing: Drawing) => {
+  const onDelete = async (drawing: Drawing) => {
     openModal({
       title: "Are you sure?",
       description: `Are you sure you want to delete ${drawing.name}?\nThis action is not reversible.`,
@@ -58,11 +57,31 @@ const App = () => {
       description: `Are you sure you want to clear the canvas?\nThe current drawing will be lost.`,
       icons: "OkIgnore",
       onSubmit: (response) => {
-        if (response === 'Ok') setDrawing({ data: [], name: null });
+        if (response === 'Ok') setDrawing([], null);
         closeModal();
       }
     })
   };
+
+  const onUpdate = async () => {
+    const rawDrawing = await getDrawing();
+    openModal({
+      title: "Are you sure?",
+      description: `Are you sure you want to update ${activeDrawingName?.name}?`,
+      icons: "OkIgnore",
+      onSubmit: async (response) => {
+        if (response === 'Ok') {
+          await updateDrawing({
+            id: activeDrawingName!.id,
+            name: activeDrawingName!.name,
+            lastUpdate: new Date().toDateString(),
+            data: rawDrawing
+          });
+        }
+        closeModal();
+      }
+    });
+  }
 
   if (!isAlive) {
     return <Modal
@@ -77,11 +96,12 @@ const App = () => {
   return <>
     <TitleBar />
     <CreateEditBar
-      activeDrawingName={activeDrawingName}
+      activeDrawingName={activeDrawingName?.name ?? ""}
       mode={mode}
       onSaveAs={() => setMode("Create")}
+      onUpdate={onUpdate}
       onClear={onClearCanvas}
-      onSave={onSaveButtonClick} />
+      onSave={onSave} />
     <Group margin='0px 0px 5px 0'>
       <Text size='l'>Local drawings:</Text>
     </Group>
@@ -90,9 +110,9 @@ const App = () => {
         key={d.id}
         name={d.name}
         date={d.lastUpdate}
-        onDelete={() => onDeleteButtonClick(d)}
+        onDelete={() => onDelete(d)}
         //todo: this needs a warning to the user
-        onOpen={async () => await setDrawing(d)}
+        onOpen={async () => await setDrawing(d.data, d)}
       />)}
     </div>
     <Modal {...modalProps} />
