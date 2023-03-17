@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Text, Button, Group, Input } from "./base";
 
 type CreateEditBarProps = {
-    activeDrawingName: string | null
+    activeDrawingName: string | null,
+    mode: "Create" | "Edit",
     onSave?: (drawingName: string) => void,
     onClear?: () => void
+    onSaveAs?: () => void
 }
 
-export const CreateEditBar = ({ activeDrawingName, onSave, onClear }: CreateEditBarProps) => {
+export const CreateEditBar = ({ activeDrawingName, mode, onSave, onClear, onSaveAs }: CreateEditBarProps) => {
     const [drawingName, setDrawingName] = useState<string>("");
+    useEffect(() => { setDrawingName(activeDrawingName ?? "") }, [activeDrawingName])
     const CreateNewDrawing = <>
         <Group margin="15px 0 0 0">
             <Input
@@ -33,10 +36,10 @@ export const CreateEditBar = ({ activeDrawingName, onSave, onClear }: CreateEdit
         <Group margin="5px 0 20px 0">
             <Button color='red' onClick={onClear}>New</Button>
             <Button color='orange'>Update</Button>
-            <Button color='green'>Save as</Button>
+            <Button color='green' onClick={onSaveAs}>Save as</Button>
         </Group>
     </>;
 
-    return activeDrawingName ? EditDrawing : CreateNewDrawing;
+    return mode == "Edit" ? EditDrawing : CreateNewDrawing;
 }
 

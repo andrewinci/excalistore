@@ -1,7 +1,7 @@
 // entry point of the react app that powers the extension pop-up
 import { Global } from '@emotion/react'
 import styled from '@emotion/styled'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { CreateEditBar, DrawingItem, Group, Text, TitleBar, Modal } from './components'
 import { useStorage, useContentScript, useModal } from './hooks'
@@ -13,6 +13,9 @@ const App = () => {
   const { drawings, createDrawing, deleteDrawing, updateDrawing } = useStorage();
   const { isAlive, activeDrawingName, getDrawing, setDrawing, checkIsAlive } = useContentScript();
   const { modalProps, closeModal, openModal } = useModal();
+  const [mode, setMode] = useState<"Create" | "Edit">("Create");
+
+  useEffect(() => { setMode(activeDrawingName ? "Edit" : "Create") }, [activeDrawingName]);
 
   const onSaveButtonClick = async (drawingName: string) => {
     // do nothing if the name is empty
@@ -34,6 +37,7 @@ const App = () => {
       data: rawDrawing
     });
     await setDrawing(drawing);
+    setMode("Edit")
   }
 
   const onDeleteButtonClick = async (drawing: Drawing) => {
@@ -74,6 +78,8 @@ const App = () => {
     <TitleBar />
     <CreateEditBar
       activeDrawingName={activeDrawingName}
+      mode={mode}
+      onSaveAs={() => setMode("Create")}
       onClear={onClearCanvas}
       onSave={onSaveButtonClick} />
     <Group margin='0px 0px 5px 0'>
