@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 // global styles
 import virgil from "./Virgil.woff2";
 
-export const POP_UP_WIDTH = 600;
+export const POP_UP_WIDTH = 500;
 export const POP_UP_HEIGHT = 450;
 
 export const GlobalStyles = css`

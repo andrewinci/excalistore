@@ -134,7 +134,7 @@ const App = () => {
     <Group margin='0px 0px 5px 0'>
       <Text size='l'>Local drawings:</Text>
     </Group>
-    <div style={{ maxHeight: "240px", minHeight: "240px", overflow: "scroll", border: "2px solid black", borderRadius: "4px" }}>
+    <div style={{ maxHeight: "240px", minHeight: "240px", overflowY: "auto", border: "2px solid black", borderRadius: "4px" }}>
       {drawings.map(d => <DrawingItem
         key={d.id}
         name={d.name}
