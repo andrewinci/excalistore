@@ -31,8 +31,8 @@ jobs:
       - name: Lint
         run: yarn lint
 
-      - name: Semantic release
-        if: github.ref == 'refs/heads/main'
-        run: yarn release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Semantic release
+      #   if: github.ref == 'refs/heads/main'
+      #   run: yarn release
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -70,9 +70,9 @@ const App = () => {
     });
   };
 
-  const onClearCanvas = async () => {
+  const onCleanCanvas = async () => {
     openModal({
-      title: "Clearing canvas",
+      title: "Cleaning canvas",
       description: `Are you sure you want to clear the canvas?\nThe current drawing will be lost.`,
       icons: "OkIgnore",
       onSubmit: (response) => {
@@ -177,7 +177,7 @@ const App = () => {
         mode={mode}
         onSaveAs={() => setMode("Create")}
         onUpdate={onUpdate}
-        onClear={onClearCanvas}
+        onClean={onCleanCanvas}
         onSave={onSave}
       />
       <Text margin="0px 0px 5px 0" textAlign="center" size="l">

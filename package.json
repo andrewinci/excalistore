@@ -9,7 +9,7 @@
     "build": "yarn clean && tsc && OUT_NAME=popup vite build && vite build",
     "preview": "vite preview",
     "format": "prettier .  --write !package.json !public/manifest.json !CHANGELOG.md",
-    "prettier:check": "yarn prettier --check . !package.json !public/manifest.json !CHANGELOG.md",
+    "prettier:check": "yarn prettier --check . !package.json !public/manifest.json !CHANGELOG.md !dist",
     "lint": "yarn prettier:check && tsc --noEmit && eslint --max-warnings=0 src",
     "bundle": "yarn lint && yarn build && cd dist && bestzip ../excalistore.zip *",
     "release": "semantic-release --repositoryUrl=\"https://github.com/andrewinci/excalistore.git\""

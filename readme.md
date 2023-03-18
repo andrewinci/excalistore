@@ -49,8 +49,18 @@ Build the extension locally
 yarn build
 ```
 
+Bundle the extension
+
+```bash
+yarn bundle
+```
+
 To load the extension in Chrome navigate to [chrome://extensions](chrome://extensions/) and use the `Load unpacked` button to point to the `dist` folder.
 Make sure to re-build after any change to test them in the browser.
+
+### Publish to the Chrome Web store
+
+Trigger a release with `yarn release` then manually upload the `excalistore.zip` to the Chrome web store.
 
 ## Credits
 

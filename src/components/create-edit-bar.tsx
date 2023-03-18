@@ -6,12 +6,12 @@ type CreateEditBarProps = {
   mode: "Create" | "Edit";
   onSave?: (drawingName: string) => void;
   onUpdate?: () => void;
-  onClear?: () => void;
+  onClean?: () => void;
   onSaveAs?: () => void;
 };
 
 export const CreateEditBar = (props: CreateEditBarProps) => {
-  const { activeDrawingName, mode, onSave, onClear, onSaveAs, onUpdate } =
+  const { activeDrawingName, mode, onSave, onClean, onSaveAs, onUpdate } =
     props;
   const [drawingName, setDrawingName] = useState<string>("");
   useEffect(() => {
@@ -31,8 +31,8 @@ export const CreateEditBar = (props: CreateEditBarProps) => {
         <Button onClick={() => onSave?.(drawingName)} color="green">
           Save
         </Button>
-        <Button onClick={onClear} color="red">
-          Clear canvas
+        <Button onClick={onClean} color="red">
+          Clean canvas
         </Button>
       </Group>
     </>
@@ -44,7 +44,7 @@ export const CreateEditBar = (props: CreateEditBarProps) => {
         {activeDrawingName}
       </Text>
       <Group margin="5px 0 20px 0">
-        <Button color="red" onClick={onClear}>
+        <Button color="red" onClick={onClean}>
           New
         </Button>
         <Button color="orange" onClick={onUpdate}>
