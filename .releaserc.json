@@ -3,7 +3,19 @@
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
-    "@semantic-release/git",
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "node scripts/uprev.js package.json ${nextRelease.version} && node scripts/uprev.js public/manifest.json ${nextRelease.version} && yarn bundle"
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": ["CHANGELOG.md", "package.json", "public/manifest.json"],
+        "message": "chore(release): ${nextRelease.version} \n\n${nextRelease.notes}"
+      }
+    ],
     [
       "@semantic-release/github",
       {
