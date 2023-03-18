@@ -57,5 +57,5 @@ export const CreateEditBar = (props: CreateEditBarProps) => {
     </>
   );
 
-  return mode == "Edit" ? EditDrawing : CreateNewDrawing;
+  return mode === "Edit" ? EditDrawing : CreateNewDrawing;
 };

@@ -30,7 +30,7 @@ const App = () => {
 
   const onSave = async (drawingName: string) => {
     // do nothing if the name is empty
-    if ((drawingName?.length ?? 0) == 0) {
+    if ((drawingName?.length ?? 0) === 0) {
       openModal({
         title: "Invalid drawing name",
         description: "The name of a drawing should not be empty.",

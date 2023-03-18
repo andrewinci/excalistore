@@ -1,6 +1,5 @@
 import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
 import styled from "@emotion/styled";
-import { useState } from "react";
 import { POP_UP_WIDTH } from "../style";
 import { Group, Text, Button } from "./base";
 

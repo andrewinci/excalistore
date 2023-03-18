@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { sendReceiveMessage } from "../browser";
-import { PopUpMessage, ScriptMessage } from "../model";
 
 export const useContentScript = () => {
   const [isAlive, setIsAlive] = useState(false);
