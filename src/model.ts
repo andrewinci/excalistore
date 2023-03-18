@@ -17,7 +17,7 @@ type PingRequest = { action: "ping" };
 /**
  * Reply to Ping from the script to pop-up
  */
-type PingResponse = { action: "pong" };
+type PingResponse = { action: "pong"; currentUrl: string };
 
 /**
  * Message from the pop-up to the script

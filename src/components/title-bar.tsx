@@ -19,11 +19,9 @@ export const TitleBar = () => {
           src={floppy}
         />
       </Group>
-      <Group margin="0" padding="0">
-        <Text size="xs" margin="0">
-          The Excalidraw drawings manager
-        </Text>
-      </Group>
+      <Text textAlign="center" size="xs" margin="0">
+        The Excalidraw drawings manager
+      </Text>
     </>
   );
 };

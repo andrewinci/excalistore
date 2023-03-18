@@ -10,11 +10,13 @@ const fontSizes = {
 type TextProps = {
   size: "xl" | "l" | "s" | "xs";
   margin?: string;
+  textAlign?: "center";
 };
 
 export const Text = styled.p<TextProps>`
   font-size: ${(props) => fontSizes[props.size]};
   margin: ${(props) => props.margin ?? "0"};
+  text-align: ${(props) => props.textAlign ?? undefined};
 `;
 
 export const Input = styled.input`

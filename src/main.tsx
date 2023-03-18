@@ -19,7 +19,7 @@ import { GlobalStyles } from "./style";
 const App = () => {
   const { drawings, createDrawing, deleteDrawing, updateDrawing } =
     useStorage();
-  const { isAlive, activeDrawing, getDrawing, setDrawing, checkIsAlive } =
+  const { isAlive, activeDrawing, url, getDrawing, setDrawing, checkIsAlive } =
     useContentScript();
   const { modalProps, closeModal, openModal } = useModal();
   const [mode, setMode] = useState<"Create" | "Edit">("Create");
@@ -123,9 +123,10 @@ const App = () => {
         title="Excalistore"
         description={
           <>
-            <Group>
-              <Text size="xs">{`This extensions only works on the Excalidraw website.`}</Text>
-            </Group>
+            <Text
+              textAlign="center"
+              size="xs"
+            >{`This extensions only works on the Excalidraw website.`}</Text>
             <Group margin="25px 0 0 0">
               <Button
                 color="green"
@@ -135,6 +136,31 @@ const App = () => {
               </Button>
             </Group>
           </>
+        }
+        opened={true}
+        icons={"None"}
+        onSubmit={checkIsAlive}
+      />
+    );
+  }
+
+  console.debug("url", url);
+  console.debug("isAlive", isAlive);
+  if (url === null || url.substring(url.indexOf("#")).includes("#room=")) {
+    return (
+      <Modal
+        title="Excalistore"
+        description={
+          <div style={{ marginTop: "25px" }}>
+            <Text
+              textAlign="center"
+              size="xs"
+            >{`Live collaboration is not supported.`}</Text>
+            <Text
+              textAlign="center"
+              size="xs"
+            >{`Exit from the live collaboration to use Excalistore.`}</Text>
+          </div>
         }
         opened={true}
         icons={"None"}
@@ -154,9 +180,9 @@ const App = () => {
         onClear={onClearCanvas}
         onSave={onSave}
       />
-      <Group margin="0px 0px 5px 0">
-        <Text size="l">Local drawings:</Text>
-      </Group>
+      <Text margin="0px 0px 5px 0" textAlign="center" size="l">
+        Local drawings:
+      </Text>
       <div
         style={{
           maxHeight: "240px",

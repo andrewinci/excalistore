@@ -12,7 +12,7 @@ onMessageReceived<PopUpMessage, ScriptMessage>((request, sendResponse) => {
   const reply = (message: ScriptMessage) => sendResponse(message);
   switch (request.action) {
     case "ping":
-      reply({ action: "pong" });
+      reply({ action: "pong", currentUrl: window.location.href });
       break;
     case "get-drawing":
       reply({

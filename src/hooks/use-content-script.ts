@@ -3,6 +3,7 @@ import { sendReceiveMessage } from "../browser";
 
 export const useContentScript = () => {
   const [isAlive, setIsAlive] = useState(false);
+  const [url, setUrl] = useState<string | null>(null);
   const [activeDrawing, setActiveDrawing] = useState<{
     name: string;
     id: string;
@@ -10,7 +11,12 @@ export const useContentScript = () => {
 
   const checkIsAlive = async (): Promise<void> => {
     await sendReceiveMessage({ action: "ping" })
-      .then((response) => setIsAlive(response?.action === "pong"))
+      .then((response) => {
+        if (response?.action === "pong") {
+          setIsAlive(true);
+          setUrl(response.currentUrl);
+        }
+      })
       .then(() => updateActiveDrawingName())
       .catch((err) => {
         console.debug(`Unable to communicate with the content-script`, err);
@@ -79,6 +85,7 @@ export const useContentScript = () => {
   return {
     isAlive,
     activeDrawing,
+    url,
     getDrawing,
     setDrawing,
     checkIsAlive,

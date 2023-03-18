@@ -75,7 +75,6 @@ export const Modal = (props: ModalProps) => {
           >
             Ignore
           </Button>
-
         </Group>
       </ModalContainer>
     </>

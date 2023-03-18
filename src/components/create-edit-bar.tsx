@@ -40,9 +40,9 @@ export const CreateEditBar = (props: CreateEditBarProps) => {
 
   const EditDrawing = (
     <>
-      <Group margin="15px 0 0 0">
-        <Text size="s">{activeDrawingName}</Text>
-      </Group>
+      <Text textAlign="center" margin="15px 0 0 0" size="s">
+        {activeDrawingName}
+      </Text>
       <Group margin="5px 0 20px 0">
         <Button color="red" onClick={onClear}>
           New
