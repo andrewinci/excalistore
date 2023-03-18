@@ -6,12 +6,9 @@ import eslint from "vite-plugin-eslint";
 export default defineConfig({
   plugins: [react(), eslint()],
   build: {
-    emptyOutDir: true,
+    emptyOutDir: false,
     rollupOptions: {
-      input: {
-        main: "index.html",
-        script: "src/script.ts",
-      },
+      input: process.env.OUT_NAME === "popup" ? "index.html" : "src/script.ts",
       output: {
         entryFileNames: `assets/[name].js`,
         chunkFileNames: `assets/[name].js`,

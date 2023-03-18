@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "clean": "rimraf dist",
+    "build": "yarn clean && tsc && OUT_NAME=popup vite build && vite build",
     "preview": "vite preview",
     "format": "prettier .  --write",
-    "lint": "tsc --noEmit && eslint --max-warnings=0 src",
-    "bundle": "yarn build && cd dist && bestzip ../excalistore.zip *"
+    "lint": "yarn prettier --check . && tsc --noEmit && eslint --max-warnings=0 src",
+    "bundle": "yarn lint && yarn build && cd dist && bestzip ../excalistore.zip *"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -26,6 +27,7 @@
     "eslint": "^8.36.0",
     "eslint-config-react-app": "^7.0.1",
     "prettier": "^2.8.4",
+    "rimraf": "^4.4.0",
     "typescript": "^4.9.3",
     "vite": "^4.1.0",
     "vite-plugin-eslint": "^1.8.1"
