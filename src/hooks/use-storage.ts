@@ -1,33 +1,8 @@
 import { useEffect, useState } from "react";
+import { storage } from "../browser";
 import { Drawing } from "../model";
 
 const DATA_KEY = "EXCALISTORE_DRAWINGS";
-
-/// **** Abstraction on top of the storage to support both chrome and localStorage **** ///
-type Storage = {
-  set: (key: string, value: any) => Promise<void>;
-  get: (key: string) => Promise<any>;
-};
-
-const ChromeStorage: Storage = {
-  get: async (key: string) => {
-    const data = await chrome.storage.local.get(key);
-    return data[key];
-  },
-  set: async (key: string, value: any) =>
-    await chrome.storage.local.set({ [key]: value }),
-};
-
-const Local: Storage = {
-  get: async (key: string) => {
-    const data = localStorage.getItem(key);
-    return data ? JSON.parse(data) : undefined;
-  },
-  set: async (key: string, value: any) =>
-    localStorage.setItem(key, JSON.stringify(value)),
-};
-
-const storage: Storage = chrome?.storage?.local ? ChromeStorage : Local;
 
 /// **** Storage hook  **** ///
 export const useStorage = () => {
@@ -45,7 +20,7 @@ export const useStorage = () => {
     await storage.set(DATA_KEY, result);
     // update the state with read drawings
     await readDrawings();
-    return newDrawing
+    return newDrawing;
   };
 
   const readDrawings = async (): Promise<void> => {

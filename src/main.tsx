@@ -2,6 +2,7 @@
 import { Global } from '@emotion/react'
 import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
+import { createTab } from './browser'
 import { CreateEditBar, DrawingItem, Group, Text, TitleBar, Modal, Button } from './components'
 import { useStorage, useContentScript, useModal } from './hooks'
 import { Drawing } from './model'
@@ -112,7 +113,7 @@ const App = () => {
             <Text size='xs'>{`This extensions only works on the Excalidraw website.`}</Text>
           </Group>
           <Group margin='25px 0 0 0'>
-            <Button color='green' onClick={async () => await chrome.tabs.create({ url: "https://excalidraw.com/" })}>Go to Excalidraw</Button>
+            <Button color='green' onClick={() => createTab("https://excalidraw.com/")}>Go to Excalidraw</Button>
           </Group>
         </>}
       opened={true}

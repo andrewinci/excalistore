@@ -1,19 +1,14 @@
 // entry point for the content-script loaded in the web page
 // the application running in the pop-up can communicate with this script
-
+// via the browser messaging API
+import { onMessageReceived } from "./browser";
 import { PopUpMessage, ScriptMessage } from "./model";
 
-// via chrome messaging
 const ACTIVE_DRAWING_DATA_KEY = "excalidraw";
 const ACTIVE_DRAWING_NAME_KEY = "excalistore-active";
 
 // logic to handle messages from the extension popup
-chrome.runtime.onMessage.addListener(function (
-  genericRequest,
-  _,
-  sendResponse
-) {
-  const request = genericRequest as PopUpMessage;
+onMessageReceived<PopUpMessage>((request, sendResponse) => {
   const reply = (message: ScriptMessage) => sendResponse(message);
   switch (request.action) {
     case "ping":

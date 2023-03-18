@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Drawing, PopUpMessage, ScriptMessage } from "../model";
+import { sendReceiveMessage } from "../browser";
+import { PopUpMessage, ScriptMessage } from "../model";
 
 export const useContentScript = () => {
   const [isAlive, setIsAlive] = useState(false);
@@ -82,26 +83,4 @@ export const useContentScript = () => {
     setDrawing,
     checkIsAlive,
   };
-};
-
-const sendReceiveMessage = async (
-  message: PopUpMessage
-): Promise<ScriptMessage | null> => {
-  const [tab] = await chrome.tabs.query({
-    active: true,
-    lastFocusedWindow: true,
-  });
-
-  if (!tab.id) {
-    console.warn("Missing tab id");
-    return null;
-  }
-
-  try {
-    const response = await chrome.tabs.sendMessage(tab.id, message);
-    return response;
-  } catch (err) {
-    console.warn("Unable to communicate with the content-script", err);
-    return null;
-  }
 };
