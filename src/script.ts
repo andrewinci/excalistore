@@ -8,7 +8,7 @@ const ACTIVE_DRAWING_DATA_KEY = "excalidraw";
 const ACTIVE_DRAWING_NAME_KEY = "excalistore-active";
 
 // logic to handle messages from the extension popup
-onMessageReceived<PopUpMessage>((request, sendResponse) => {
+onMessageReceived<PopUpMessage, ScriptMessage>((request, sendResponse) => {
   const reply = (message: ScriptMessage) => sendResponse(message);
   switch (request.action) {
     case "ping":
@@ -17,7 +17,7 @@ onMessageReceived<PopUpMessage>((request, sendResponse) => {
     case "get-drawing":
       reply({
         action: "drawing",
-        data: localStorage.getItem(ACTIVE_DRAWING_DATA_KEY),
+        data: localStorage.getItem(ACTIVE_DRAWING_DATA_KEY) ?? "[]",
       });
       break;
     case "set-drawing":

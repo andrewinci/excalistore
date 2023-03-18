@@ -41,6 +41,8 @@ const App = () => {
 
     // retrieve the drawing from content-script
     const rawDrawing = await getDrawing();
+    if (!rawDrawing) throw Error("Unable to retrieve the raw drawing");
+
     const drawing = await createDrawing({
       id: Date.now().toString(), //todo: use an uuid
       name: drawingName!,
@@ -60,7 +62,7 @@ const App = () => {
         if (response === "Ok") {
           await deleteDrawing(drawing.id);
           if (activeDrawing?.id === drawing.id) {
-            await setDrawing(null, null);
+            await setDrawing("[]", null);
           }
         }
         closeModal();
@@ -74,7 +76,7 @@ const App = () => {
       description: `Are you sure you want to clear the canvas?\nThe current drawing will be lost.`,
       icons: "OkIgnore",
       onSubmit: (response) => {
-        if (response === "Ok") setDrawing([], null);
+        if (response === "Ok") setDrawing("[]", null);
         closeModal();
       },
     });
@@ -82,6 +84,7 @@ const App = () => {
 
   const onUpdate = async () => {
     const rawDrawing = await getDrawing();
+    if (!rawDrawing) throw Error("Unable to retrieve the raw drawing");
     openModal({
       title: "Update drawing",
       description: `Are you sure you want to update ${activeDrawing?.name}?`,

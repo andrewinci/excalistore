@@ -2,7 +2,7 @@ export type Drawing = {
   id: string;
   name: string;
   lastUpdate: string;
-  data: any;
+  data: string;
 };
 
 // **** messages exchanged between the script and the popup window **** //
@@ -41,7 +41,7 @@ type GetDrawingRequest = { action: "get-drawing" };
 /**
  * Return the current drawing to the pop up
  */
-type GetDrawingResponse = { action: "drawing"; data: any };
+type GetDrawingResponse = { action: "drawing"; data: string };
 
 /**
  * Set the current drawing in the local store
@@ -50,7 +50,7 @@ type GetDrawingResponse = { action: "drawing"; data: any };
 type SetDrawingRequest = {
   action: "set-drawing";
   activeDrawing: { name: string; id: string } | null;
-  data: any;
+  data: string;
 };
 
 type SetDrawingResponse = { action: "drawing-set"; success: boolean };

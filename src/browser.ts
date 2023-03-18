@@ -4,8 +4,8 @@ import { PopUpMessage, ScriptMessage } from "./model";
 
 // *** STORAGE ***/
 type Storage = {
-  set: (key: string, value: any) => Promise<void>;
-  get: (key: string) => Promise<any>;
+  set: <T>(key: string, value: T) => Promise<void>;
+  get: <T>(key: string) => Promise<T>;
 };
 
 const ChromeStorage: Storage = {
@@ -13,7 +13,7 @@ const ChromeStorage: Storage = {
     const data = await chrome.storage.local.get(key);
     return data[key];
   },
-  set: async (key: string, value: any) =>
+  set: async <T>(key: string, value: T) =>
     await chrome.storage.local.set({ [key]: value }),
 };
 
@@ -22,7 +22,7 @@ const Local: Storage = {
     const data = localStorage.getItem(key);
     return data ? JSON.parse(data) : undefined;
   },
-  set: async (key: string, value: any) =>
+  set: async <T>(key: string, value: T) =>
     localStorage.setItem(key, JSON.stringify(value)),
 };
 
@@ -62,8 +62,8 @@ export const createTab = async (url: string) =>
   await chrome.tabs.create({ url });
 
 // *** On message received ***
-export function onMessageReceived<T>(
-  handler: (request: T, sendResponse: (_: any) => void) => void
+export function onMessageReceived<T, R>(
+  handler: (request: T, sendResponse: (_: R) => void) => void
 ) {
   chrome.runtime.onMessage.addListener((message, _, sendResponse) =>
     handler(message, sendResponse)

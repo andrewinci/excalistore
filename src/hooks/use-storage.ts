@@ -25,7 +25,7 @@ export const useStorage = () => {
 
   const readDrawings = async (): Promise<void> => {
     console.log("Retrieving drawings");
-    const result = (await storage.get(DATA_KEY)) ?? [];
+    const result: Drawing[] = (await storage.get(DATA_KEY)) ?? [];
     console.log("Data retrieved", result);
     await setDrawings(result);
   };

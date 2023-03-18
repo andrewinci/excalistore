@@ -20,9 +20,10 @@ export const useContentScript = () => {
 
   useEffect(() => {
     checkIsAlive();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getDrawing = async (): Promise<any> => {
+  const getDrawing = async (): Promise<string | null> =>
     await sendReceiveMessage({ action: "get-drawing" })
       .then((response) => {
         if (response?.action === "drawing") {
@@ -36,11 +37,11 @@ export const useContentScript = () => {
       })
       .catch((err) => {
         console.debug(`Error sending/receiving the get-drawing message`, err);
+        return null;
       });
-  };
 
   const setDrawing = async (
-    data: any | null,
+    data: string,
     activeDrawing: { name: string; id: string } | null
   ) => {
     await sendReceiveMessage({
