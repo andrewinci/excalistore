@@ -8,55 +8,71 @@ export const useContentScript = () => {
     id: string;
   } | null>(null);
 
-  const checkIsAlive = async () => {
-    try {
-      // check if the content-script is responding
-      const response = await sendReceiveMessage({ action: "ping" });
-      setIsAlive(response?.action === "pong");
-      // retrieve the name of the current drawing
-      await updateActiveDrawingName();
-    } catch (err) {
-      setIsAlive(false);
-    }
+  const checkIsAlive = async (): Promise<void> => {
+    await sendReceiveMessage({ action: "ping" })
+      .then((response) => setIsAlive(response?.action === "pong"))
+      .then(() => updateActiveDrawingName())
+      .catch((err) => {
+        console.debug(`Unable to communicate with the content-script`, err);
+        setIsAlive(false);
+      });
   };
 
   useEffect(() => {
     checkIsAlive();
   }, []);
 
-  const getDrawing = async () => {
-    const response = await sendReceiveMessage({ action: "get-drawing" });
-    if (response?.action === "drawing") {
-      return response.data;
-    } else {
-      throw Error("Missing or invalid response from the content-script.");
-    }
+  const getDrawing = async (): Promise<any> => {
+    await sendReceiveMessage({ action: "get-drawing" })
+      .then((response) => {
+        if (response?.action === "drawing") {
+          return response.data;
+        } else {
+          console.error(
+            "Missing or invalid response from the content-script. Try to reload the page."
+          );
+          throw Error("Missing or invalid response from the content-script.");
+        }
+      })
+      .catch((err) => {
+        console.debug(`Error sending/receiving the get-drawing message`, err);
+      });
   };
 
   const setDrawing = async (
     data: any | null,
     activeDrawing: { name: string; id: string } | null
   ) => {
-    const response = await sendReceiveMessage({
+    await sendReceiveMessage({
       action: "set-drawing",
       data,
       activeDrawing,
-    });
-    if (response?.action === "drawing-set") {
-      await updateActiveDrawingName();
-      return true;
-    } else {
-      return false;
-    }
+    })
+      .then(async (response) => {
+        if (response?.action === "drawing-set") {
+          await updateActiveDrawingName();
+          return true;
+        } else {
+          return false;
+        }
+      })
+      .catch((err) => {
+        console.debug(`Error sending/receiving the set-drawing message`, err);
+      });
   };
 
   const updateActiveDrawingName = async () => {
-    const response = await sendReceiveMessage({ action: "get-active" });
-    if (response?.action === "active") {
-      setActiveDrawing(response.data);
-    } else {
-      setActiveDrawing(null);
-    }
+    await sendReceiveMessage({ action: "get-active" })
+      .then((response) => {
+        if (response?.action === "active") {
+          setActiveDrawing(response.data);
+        } else {
+          setActiveDrawing(null);
+        }
+      })
+      .catch((err) => {
+        console.debug(`Error sending/receiving the get-active message`, err);
+      });
   };
 
   return {

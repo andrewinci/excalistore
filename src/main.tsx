@@ -104,18 +104,17 @@ const App = () => {
   }
 
   if (!isAlive) {
-    //todo: Make https://excalidraw.com/ a link.
     return <Modal
       title="Excalistore"
-      description={ 
-      <>
-        <Group>
-          <Text size='xs'>{`This extensions only works on the Excalidraw website`}</Text>
-        </Group>
-        <Group margin='25px 0 0 0'>
-          <Button color='green' onClick={async () => await chrome.tabs.create({url: "https://excalidraw.com/"})}>Go to Excalidraw</Button>
-        </Group>
-      </>}
+      description={
+        <>
+          <Group>
+            <Text size='xs'>{`This extensions only works on the Excalidraw website.`}</Text>
+          </Group>
+          <Group margin='25px 0 0 0'>
+            <Button color='green' onClick={async () => await chrome.tabs.create({ url: "https://excalidraw.com/" })}>Go to Excalidraw</Button>
+          </Group>
+        </>}
       opened={true}
       icons={"None"}
       onSubmit={checkIsAlive}
