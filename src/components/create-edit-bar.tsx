@@ -32,7 +32,7 @@ export const CreateEditBar = (props: CreateEditBarProps) => {
           Save
         </Button>
         <Button onClick={onClear} color="red">
-          Clear
+          Clear canvas
         </Button>
       </Group>
     </>

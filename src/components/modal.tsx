@@ -62,19 +62,20 @@ export const Modal = (props: ModalProps) => {
           }
         >
           <Button
-            hidden={icons === "None" || icons === "OK"}
-            onClick={() => onSubmit("Ignore")}
-            color="green"
-          >
-            Ignore
-          </Button>
-          <Button
             hidden={icons === "None" || icons === "Ignore"}
             onClick={() => onSubmit("Ok")}
             color="red"
           >
             Ok
           </Button>
+          <Button
+            hidden={icons === "None" || icons === "OK"}
+            onClick={() => onSubmit("Ignore")}
+            color="green"
+          >
+            Ignore
+          </Button>
+
         </Group>
       </ModalContainer>
     </>
