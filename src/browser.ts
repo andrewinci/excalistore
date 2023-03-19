@@ -58,8 +58,8 @@ const sendReceiveMessageChrome: sendReceiveMessageType = async (
 export const sendReceiveMessage = sendReceiveMessageChrome;
 
 // *** TABS ***
-export const createTab = async (url: string) =>
-  await chrome.tabs.create({ url });
+export const createTab = async (url: string, callback: () => void) =>
+  await chrome.tabs.create({ url }, callback);
 
 // *** On message received ***
 export function onMessageReceived<T, R>(

@@ -46,5 +46,5 @@ onMessageReceived<PopUpMessage, ScriptMessage>((request, sendResponse) => {
       break;
   }
 });
-
+console.log("Loaded");
 export {};

@@ -8,7 +8,7 @@ export type ModalProps = {
   description?: string | ReactJSXElement;
   opened: boolean;
   icons?: "OK" | "Ignore" | "OkIgnore" | "None";
-  onSubmit: (response: "Ok" | "Ignore") => void;
+  onSubmit?: (response: "Ok" | "Ignore") => void;
 };
 
 export const Modal = (props: ModalProps) => {
@@ -63,14 +63,14 @@ export const Modal = (props: ModalProps) => {
         >
           <Button
             hidden={icons === "None" || icons === "Ignore"}
-            onClick={() => onSubmit("Ok")}
+            onClick={() => onSubmit?.("Ok")}
             color="red"
           >
             Ok
           </Button>
           <Button
             hidden={icons === "None" || icons === "OK"}
-            onClick={() => onSubmit("Ignore")}
+            onClick={() => onSubmit?.("Ignore")}
             color="green"
           >
             Ignore

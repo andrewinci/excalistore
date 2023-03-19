@@ -11,19 +11,13 @@
   },
   "content_scripts": [
     {
-      "js": [
-        "assets/script.js"
-      ],
-      "matches": [
-        "https://excalidraw.com/*"
-      ]
+      "run_at": "document_start",
+      "js": ["assets/script.js"],
+      "matches": ["https://excalidraw.com/*"]
     }
   ],
   "action": {
     "default_popup": "index.html"
   },
-  "permissions": [
-    "storage",
-    "unlimitedStorage"
-  ]
+  "permissions": ["storage", "unlimitedStorage"]
 }

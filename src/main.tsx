@@ -130,7 +130,9 @@ const App = () => {
             <Group margin="25px 0 0 0">
               <Button
                 color="green"
-                onClick={() => createTab("https://excalidraw.com/")}
+                onClick={() =>
+                  createTab("https://excalidraw.com/", () => checkIsAlive())
+                }
               >
                 Go to Excalidraw
               </Button>
@@ -139,7 +141,6 @@ const App = () => {
         }
         opened={true}
         icons={"None"}
-        onSubmit={checkIsAlive}
       />
     );
   }
