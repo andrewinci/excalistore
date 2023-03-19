@@ -1,12 +1,12 @@
 <h1 align="center">
   <br>
-  <img src="public/images/icon128.png" alt="Excalistore" width="200">
+  <img src="public/images/icon128.png" alt="Excalistore" width="100">
   <br>
   Excalistore
   <br>
 </h1>
 
-<h4 align="center">A Chrome extension to store and manage multiple Excalidraw drawings</h4>
+<h4 align="center">A browser extension to store and manage multiple Excalidraw drawings</h4>
 <br/>
 <p align="center">
 
@@ -16,24 +16,26 @@
 <a href="https://github.com/andrewinci/excalistore/releases/latest/" > 
     <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/andrewinci/excalistore?style=flat">
 </a>
-<a href="https://chrome.google.com/webstore/detail/cemnjkfjpieanmfoddiljfildcdipmgc/" > 
-    <img alt="Chrome Web Store" src="https://img.shields.io/chrome-web-store/v/cemnjkfjpieanmfoddiljfildcdipmgc?color=red">
-</a>
 
 </p>
 
-<h1 align="center">
+<p align="center">
   <br>
-  <img src="screenshot/popup.png" alt="Excalistore">
-</h1>
+  <img src="media/popup.png" alt="Excalistore" width="300">
+</p>
 
 We all love excalidraw but wouldn't be great if you could store multiple drawing locally without leaving your browser?
 
 With Excalistore, you can easily save and organize your Excalidraw drawings as you create them and without leaving your browser.
 
+## Browsers
+
+- [Chrome web store ](https://chrome.google.com/webstore/detail/excalistore/cemnjkfjpieanmfoddiljfildcdipmgc)
+- [Firefox add-on](https://addons.mozilla.org/en-GB/firefox/addon/excalistore/)
+
 ## Dev
 
-To build the project locally you need: [yarn](https://yarnpkg.com/) and [volta](https://volta.sh/).
+To build the project locally you just need [volta](https://volta.sh/).
 
 ### Getting started
 
@@ -58,9 +60,9 @@ yarn bundle
 To load the extension in Chrome navigate to [chrome://extensions](chrome://extensions/) and use the `Load unpacked` button to point to the `dist` folder.
 Make sure to re-build after any change to test them in the browser.
 
-### Publish to the Chrome Web store
+### Publish to the browsers store
 
-Trigger a release with `yarn release` then manually upload the `excalistore.zip` to the Chrome web store.
+Trigger a release with `yarn release` then manually upload the `excalistore.zip` to the [Chrome web store](https://chrome.google.com/webstore/devconsole/) and [Firefox add-on hub](https://addons.mozilla.org/en-GB/developers/).
 
 ## Credits
 
