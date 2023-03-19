@@ -12,7 +12,7 @@
     "prettier:check": "yarn prettier --check . !package.json !public/manifest.json !CHANGELOG.md !dist",
     "lint": "yarn prettier:check && tsc --noEmit && eslint --max-warnings=0 src",
     "bundle": "yarn lint && yarn build && cd dist && bestzip ../excalistore.zip *",
-    "release": "semantic-release --repositoryUrl=\"https://github.com/andrewinci/excalistore.git\""
+    "release": "semantic-release --repositoryUrl=\"https://github.com/andrewinci/excalistore.git\" --ci false"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
