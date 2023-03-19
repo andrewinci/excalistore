@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/andrewinci/excalistore/compare/v1.1.0...v1.2.0) (2023-03-19)
+
+
+### Features
+
+* update logo ([aae710d](https://github.com/andrewinci/excalistore/commit/aae710d02ce361c7e76e10d225f7395af0f558f6))
+
 # [1.1.0](https://github.com/andrewinci/excalistore/compare/v1.0.0...v1.1.0) (2023-03-19)
 
 
