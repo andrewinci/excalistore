@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/andrewinci/excalistore/compare/v1.0.0...v1.1.0) (2023-03-19)
+
+
+### Features
+
+* support firefox ([d22ad7c](https://github.com/andrewinci/excalistore/commit/d22ad7cddbe2b1ece3e551f990ebc06b36276309))
+
 # 1.0.0 (2023-03-18)
 
 
