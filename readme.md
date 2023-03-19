@@ -17,7 +17,7 @@
     <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/andrewinci/excalistore?style=flat">
 </a>
 <a href="https://chrome.google.com/webstore/detail/cemnjkfjpieanmfoddiljfildcdipmgc/" > 
-    <img alt="GitHub release (latest by date)" src="https://img.shields.io/chrome-web-store/users/cemnjkfjpieanmfoddiljfildcdipmgc">
+    <img alt="Chrome Web Store" src="https://img.shields.io/chrome-web-store/v/cemnjkfjpieanmfoddiljfildcdipmgc?color=red">
 </a>
 
 </p>
