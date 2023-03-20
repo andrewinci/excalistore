@@ -106,7 +106,7 @@ const App = () => {
   const onOpen = async (drawing: Drawing) => {
     openModal({
       title: "Open drawing",
-      description: `Are you sure you want to open ${activeDrawing?.name}? Any unsaved changes to the current doc will be lost.`,
+      description: `Are you sure you want to open ${drawing?.name}? Any unsaved changes to the current doc will be lost.`,
       icons: "OkIgnore",
       onSubmit: async (response) => {
         if (response === "Ok") {
